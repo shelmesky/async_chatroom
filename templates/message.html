@@ -1,0 +1,63 @@
+<div class="message" id="m{{ message["id"] }}">
+    {% if message["type"] == "normal_chat" %}
+        <div class="alert alert-info">
+            {{ message["time"] }}
+            <b>{{ message["from"] }}: </b>
+            {% module linkify(message["body"]) %}
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "private_chat" %}
+        <div class="alert alert-error">
+            {{ message["time"] }}
+            <b>{{ message["from"] }} 悄悄的说 : </b>
+            {% module linkify(message["body"]) %}
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "private_chat_sent" %}
+        <div class="alert alert-error">
+            <button class="close" type="button" data-dismiss="alert">x</button>
+            {{ message["time"] }}
+            私聊消息已发送.
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "broadcast_chat" %}
+        <div class="alert alert-success">
+            {{ message["time"] }}
+            <b>系统广播 : </b>
+            {% module linkify(message["body"]) %}
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "welcome_message" %}
+        <div class="alert alert-success">
+            {{ message["time"] }}
+            <b>系统 : </b>
+            欢迎 <b>{{ message["user"] }}</b> 进入聊天室!
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "broadcast_sent" %}
+        <div class="alert alert-success">
+            <button class="close" type="button" data-dismiss="alert">x</button>
+            {{ message["time"] }}
+            广播消息已发送.
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "command_error" %}
+        <div class="alert alert-error">
+            <button class="close" type="button" data-dismiss="alert">x</button>
+            未知命令!
+        </div>
+    {% end %}
+    
+    {% if message["type"] == "user_offline" %}
+        <div class="alert alert-error">
+            <button class="close" type="button" data-dismiss="alert">x</button>
+            用户离线或用户不存在!
+        </div>
+    {% end %}
+</div>

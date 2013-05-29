@@ -1,0 +1,60 @@
+介绍：
+
+使用纯python实现。
+多用户聊天室，支持多房间、全局广播、用户私聊。
+分布式部署，支持多个服务器横向扩展。
+最前端可以使用nginx做负载均衡。
+
+
+
+部署：
+
+依赖的组件：
+1. python 2.7+
+2. tornado 2.4+
+3. redis server
+4. python redis client
+
+平台：
+Linux/BSD
+
+
+
+服务器配置：
+1. 配置redis服务器，可参考redis官方教程，无特别要求。
+
+2. 设置防火墙
+在iptables上打开UDP 3000端口
+shell> iptables -A INPUT -p udp --dport 3000 -j ACCEPT
+
+3. UPD多播配置：
+这里先假设是在多台服务器上部署，需要每台服务器分别设置多播路由：
+
+shell> router add –net 224.0.0.0 netmask 224.0.0.0 dev eth0
+
+4. 多播路由设置完成后，可以启动服务器。假设有两台服务器A和B：
+
+服务器A: python prototype_redis.py --port=10000
+服务器B：python prototype_redis.py --port=10000
+
+5. 测试：
+分别在两个不同主机，或同一个主机的两个不同的浏览器上（如firefix和chrome）打开：
+http://ServerA:10000
+http://ServerB:10000
+
+
+
+单机部署：
+单机部署比较特殊，不仅需要配置多播路由，还需要关闭linux内核的源地址过滤功能：
+
+配置多播路由：
+shell> router add –net 224.0.0.0 netmask 224.0.0.0 dev lo
+在本地环回网卡上增加一条多播路由。
+
+关闭源地址过滤：
+在/etc/sysctl.conf中最后加入：
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.all.rp_filter = 0
+
+关闭源地址过滤功能，需要重启服务器。
+

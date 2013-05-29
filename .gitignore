@@ -1,0 +1,4 @@
+*.pyc
+prototype/
+*.log
+*.rdb
