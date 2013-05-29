@@ -19,4 +19,7 @@ def server_init():
     define("cookie_secret", help="secret of cookie of init use", type=str)
     
     define("encrypt_key", help="key use to encrypt content that transfer by multicast", type=str)
+    
+    define("daemon", help="run server in the background", type=bool)
+    
     tornado.options.parse_config_file(conf_file)
