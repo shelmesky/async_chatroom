@@ -12,6 +12,7 @@ import functools
 import uuid
 import signal
 import argparse
+import socket
 
 from common.server_init import server_init
 
@@ -528,7 +529,7 @@ def main(port):
     # xheaders=True
     # tronado运行在reverse proxy后面的时候获取client真实IP
     server = HTTPServer(app, xheaders=True)
-    server.bind(port)
+    server.bind(port, socket.AF_INET)
     server.start()
     ioloop.IOLoop.instance().start()
 
